@@ -1,0 +1,23 @@
+## How to compile
+1. Unzip the 'prj1_kkim651.zip'
+        * unzip prj1_kkim651.zip
+2. To compile and execute:
+        1) cd vcpu_scheduler directory
+        2) type 'make'
+        3) To run, 'vcpu_scheduler <time interval>'
+
+## Code Description
+* It will first connect to the hypervisor.
+* Once the connection to the hypervisor is established, it will get into an infinite loop,
+which runs as long as there are active domains and is not interrupted by the user. 
+* The logic is that it gets each guest machine's vCpu utilization and see if it is in a balanced
+state by comparing the differences between the busiest and the freest. If the difference is within
+the allowable threshold, then, it is considered a balanced status. If not, it gets into an algorithm
+where it tries to find a balance among those set of numbers (each guest machine's vCpu utilization) and
+find the best matches that would produce the total values as close as the average if numbers are
+distributed to the number of bins (total number of pCPUs). Then, pin those changes. 
+
+# References
+* https://help.ubuntu.com/lts/serverguide/cloud-images-and-uvtool.html
+* https://github.com/dLobatog/kvmScheduling
+* https://www.tutorialspoint.com/c_standard_library/c_function_qsort.htm
