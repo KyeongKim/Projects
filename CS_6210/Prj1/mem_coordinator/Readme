@@ -1,0 +1,40 @@
+## How to compile
+1. Unzip the 'prj1_kkim651.zip'
+        * unzip prj1_kkim651.zip
+2. To compile and execute:
+        1) cd mem_coordinator directory
+        2) type 'make'
+        3) To run, 'memory_coordinator <time interval>'
+
+## Code Description
+* It will first connect to the hypervisor.
+* Once the connection to the hypervisor is established, it will get into an infinite loop,
+which runs as long as there are active domains and is not interrupted by the user.      
+* The logic within the infinite loop starts by getting the active domains, then it iterates
+through those active domains to set status of each domains based on the size of the unused
+memory. If the size of the unused memory indicates a starvation, its status is set to 0. If the
+size of the unused memory indicates that it has over-committed memory without utilizing, then
+its status is set to 1. Otherwise, the status is set to 3 indicating that it is normal.
+* Note that the program is tracking the prior size of each domain's unused memory and compare
+that to the current unused memory because if the prior unused memory and the current unused
+memory sizes are different, that would indicate that the domain is currently in busy state and 
+its balloon memory would not be reduced even if it is over the threshold limit. This also
+applies to the status where its would have been set to 2. This elevation of status is done
+so that whenever there are any domains that gives out some of its memory resources, these
+resources can be shared among those active domains.
+* Whenever domains give up resources, it first gets shared with domains whose balloon size
+needs to be increased. If there are more left after the first distribution of the resources, it, then
+gets shared with those active domains.
+* Whenever any domains's balloon size gets increased, the program checks if there are any domains
+that are inactive in order to levy memory tax of 2 MB. Then, this tax memory gets shared with those domains
+whose balloon size has increased because it was less than the threshold limit. The rationale for this
+to help those active domains who is using resources actively.
+* At any time a balloon size needs to be increased, it checks to be sure that the host's memory and buffer 
+sizes are under the defined limit to prevent any crashing or freezing of the host.
+
+# References
+* https://github.com/dLobatog/kvmScheduling
+* https://github.com/virtualopensystems/libvirt/blob/master/src/nodeinfo.c
+* http://dpdk.org/browse/dpdk/plain/examples/vm_power_manager/channel_manager.c
+* https://github.com/leitao/kvmsdk/blob/master/C/example2.c
+* https://www.berrange.com/posts/2010/02/12/controlling-guest-cpu-numa-affinity-in-libvirt-with-qemu-kvm-xen/
