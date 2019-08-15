@@ -1,0 +1,4 @@
+Assumption/comments:
+1. Assume that after the 5 seconds delay and Output 0 has been activated, activating Input 1 to cancel the shutdown will not deactivate Output 0.
+However, if Input 0 gets deactivated again after Input 1 has been activated, the Output 0 will be deactivated and re-activating the Input 0 again will
+not activate Output 0 unless Input 1 is deactivated because shutdown process should not start because the cancellation is still in effect.

@@ -1,0 +1,7 @@
+Assumption/comments:
+1. The number of times that user clicks is up to me.
+2. Counter only goes up when user clicks the Input 0 to activate it.
+3. Once the logic bomb triggers, the outputs should remain in the ON state irrespective of what happens to the input.
+4. For Part 3 of the project, I have inserted the ladder logic bomb on Part B. 
+   The ladder logic bomb is designed to trigger and activate all outputs on 5 active input 0.
+

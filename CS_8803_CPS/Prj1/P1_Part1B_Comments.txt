@@ -1,0 +1,4 @@
+For Part 1B of the project, I am assuming that we are not obligated to use only one timer and assuming that
+refereced variables in the project 1 description (ex. Timer 0 Preset, Timer 0 Finished) are there as a reference only,
+in case we decide to use them in our project. So, I am using two timers for the purpose of activating and deactivating
+Output 0.
